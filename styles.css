@@ -447,6 +447,19 @@ section {
     position: relative;
 }
 
+/* Projects Header Info */
+.projects-header-info {
+    text-align: center;
+    margin-bottom: 2rem;
+}
+
+.projects-header-info h3 {
+    font-size: 1.5rem;
+    color: var(--text-secondary);
+    font-weight: 500;
+    margin: 0;
+}
+
 .section-header {
     text-align: center;
     margin-bottom: 4rem;

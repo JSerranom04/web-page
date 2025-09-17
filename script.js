@@ -557,163 +557,159 @@ class ProjectsComponent extends BaseComponent {
     
     displayFallbackProjects() {
         const fallbackProjects = [
-            // AI/ML Projects - High Complexity
+            // AI/ML Projects - Backend category
             {
                 name: 'Gaussian Processes',
                 description: 'Advanced probabilistic machine learning implementation using Gaussian Processes for regression and classification tasks with uncertainty quantification.',
-                categories: ['backend', 'opensource'],
+                categories: ['backend'],
                 techStack: ['Python', 'Jupyter', 'NumPy', 'SciPy', 'Matplotlib'],
                 links: { 
                     github: 'https://github.com/JSerranom04/gaussian-processes',
                     demo: null 
                 },
-                image: 'gaussian-processes.jpg' // Suggested: Graph showing GP regression with uncertainty bands
+                image: 'gaussian-processes.jpg'
             },
             {
                 name: 'Generative GMM',
                 description: 'Generative Gaussian Mixture Models implementation for unsupervised learning, clustering, and density estimation with EM algorithm optimization.',
-                categories: ['backend', 'opensource'],
+                categories: ['backend'],
                 techStack: ['Python', 'Jupyter', 'Scikit-learn', 'NumPy'],
                 links: { 
                     github: 'https://github.com/JSerranom04/generative-GMM',
                     demo: null 
                 },
-                image: 'generative-gmm.jpg' // Suggested: Colorful cluster visualization or GMM components
+                image: 'generative-gmm.jpg'
             },
             {
                 name: 'Logistic Regression & Neural Networks',
                 description: 'From-scratch implementation of logistic regression and neural networks with backpropagation, showcasing deep understanding of ML fundamentals.',
-                categories: ['backend', 'opensource'],
+                categories: ['backend'],
                 techStack: ['Python', 'Jupyter', 'NumPy', 'Matplotlib'],
                 links: { 
                     github: 'https://github.com/JSerranom04/logistic-regression-and-neural-networks',
                     demo: null 
                 },
-                image: 'neural-networks.jpg' // Suggested: Neural network architecture diagram
+                image: 'neural-networks.jpg'
             },
             {
                 name: 'Binary Logistic Regression',
                 description: 'Mathematical implementation of binary logistic regression from scratch, demonstrating statistical learning theory and optimization techniques.',
-                categories: ['backend', 'opensource'],
+                categories: ['backend'],
                 techStack: ['Python', 'Jupyter', 'NumPy', 'Statistics'],
                 links: { 
                     github: 'https://github.com/JSerranom04/binary-logistic-regression',
                     demo: null 
                 },
-                image: 'logistic-regression.jpg' // Suggested: Sigmoid curve or decision boundary plot
+                image: 'logistic-regression.jpg'
             },
 
-            // Compiler & Systems - High Complexity
+            // Compiler & Systems Projects - Backend category
             {
                 name: 'Compiler from Scratch (JavaCC)',
                 description: 'Complete language processor implementation including lexical analysis, parsing, semantic analysis, and code generation using JavaCC framework.',
-                categories: ['backend', 'opensource'],
+                categories: ['backend'],
                 techStack: ['Java', 'JavaCC', 'Compiler Design', 'AST'],
                 links: { 
                     github: 'https://github.com/JSerranom04/compiler-from-scratch-Javacc',
                     demo: null 
                 },
-                image: 'compiler-design.jpg' // Suggested: Abstract syntax tree or compiler pipeline diagram
+                image: 'compiler-design.jpg'
             },
 
-            // Distributed Systems - High Complexity
+            // Distributed Systems Projects - Backend category
             {
                 name: 'Raft Distributed Algorithm',
                 description: 'Implementation of the Raft consensus algorithm for distributed systems, ensuring fault tolerance and consistency in distributed environments.',
-                categories: ['backend', 'opensource'],
+                categories: ['backend'],
                 techStack: ['Go', 'Distributed Systems', 'Consensus', 'Networking'],
                 links: { 
                     github: 'https://github.com/JSerranom04/raft-distributed-algorithm',
                     demo: null 
                 },
-                image: 'raft-algorithm.jpg' // Suggested: Distributed nodes diagram or consensus visualization
+                image: 'raft-algorithm.jpg'
             },
             {
                 name: 'Ricart-Agrawala Writers-Readers',
                 description: 'Implementation of the Ricart-Agrawala distributed mutual exclusion algorithm for coordinating writers and readers in distributed systems.',
-                categories: ['backend', 'opensource'],
+                categories: ['backend'],
                 techStack: ['Go', 'Distributed Systems', 'Concurrency', 'Mutex'],
                 links: { 
                     github: 'https://github.com/JSerranom04/ricart-agrawala-writters-readers',
                     demo: null 
                 },
-                image: 'distributed-mutex.jpg' // Suggested: Network nodes with message passing visualization
+                image: 'distributed-mutex.jpg'
             },
 
-            // Algorithms & Data Structures - Medium Complexity
+            // Algorithms & Data Structures Projects - Backend category
             {
                 name: 'Branch and Prune Algorithms',
                 description: 'Implementation of branch-and-bound optimization algorithms with pruning techniques for solving complex combinatorial problems efficiently.',
-                categories: ['backend', 'opensource'],
+                categories: ['backend'],
                 techStack: ['Go', 'Algorithms', 'Optimization', 'Data Structures'],
                 links: { 
                     github: 'https://github.com/JSerranom04/branch-and-prune',
                     demo: null 
                 },
-                image: 'branch-bound.jpg' // Suggested: Tree structure showing branching and pruning
-            },
-            {
-                name: 'Algorithmic Problem Collection',
-                description: 'Comprehensive collection of algorithmic solutions covering dynamic programming, greedy algorithms, graph theory, and competitive programming.',
-                categories: ['backend', 'opensource'],
-                techStack: ['Python', 'Algorithms', 'Data Structures', 'Problem Solving'],
-                links: { 
-                    github: 'https://github.com/JSerranom04/algorithmic-problem-collection',
-                    demo: null 
-                },
-                image: 'algorithms.jpg' // Suggested: Code snippets or algorithm complexity charts
+                image: 'branch-bound.jpg'
             },
 
-            // System Programming - Medium Complexity
+            // System Programming - Backend category
             {
                 name: 'Python Message Broker',
                 description: 'High-performance message broker implementation in Python supporting multiple messaging patterns and protocols for distributed communication.',
-                categories: ['backend', 'opensource'],
+                categories: ['backend'],
                 techStack: ['Python', 'Networking', 'Message Queue', 'Concurrency'],
                 links: { 
                     github: 'https://github.com/JSerranom04/py-message-broker',
                     demo: null 
                 },
-                image: 'message-broker.jpg' // Suggested: Message flow diagram or queue visualization
+                image: 'message-broker.jpg'
             },
 
-            // Image Processing - Medium Complexity
+            // Utility & Algorithm Projects - Backend category
             {
                 name: 'Content-Aware Image Resizing',
                 description: 'Implementation of seam carving algorithm for intelligent image resizing that preserves important visual content while removing less significant areas.',
-                categories: ['backend', 'opensource'],
+                categories: ['backend'],
                 techStack: ['Go', 'Image Processing', 'Computer Vision', 'Algorithms'],
                 links: { 
                     github: 'https://github.com/JSerranom04/content-aware-image-resizing',
                     demo: null 
                 },
-                image: 'seam-carving.jpg' // Suggested: Before/after image showing seam carving effect
+                image: 'seam-carving.jpg'
             },
-
-            // Utility Projects - Lower Complexity
             {
                 name: 'Hamming Distance Calculator',
                 description: 'Efficient implementation of Hamming distance calculation for error detection and correction in digital communications and bioinformatics.',
-                categories: ['backend', 'opensource'],
+                categories: ['backend'],
                 techStack: ['Go', 'Bit Manipulation', 'Error Detection', 'Algorithms'],
                 links: { 
                     github: 'https://github.com/JSerranom04/hamming-distance',
                     demo: null 
                 },
-                image: 'hamming-distance.jpg' // Suggested: Binary strings comparison or error correction visualization
+                image: 'hamming-distance.jpg'
             },
-
-            // Web Projects
+            {
+                name: 'Algorithmic Problem Collection',
+                description: 'Comprehensive collection of algorithmic solutions covering dynamic programming, greedy algorithms, graph theory, and competitive programming.',
+                categories: ['backend'],
+                techStack: ['Python', 'Algorithms', 'Data Structures', 'Problem Solving'],
+                links: { 
+                    github: 'https://github.com/JSerranom04/algorithmic-problem-collection',
+                    demo: null 
+                },
+                image: 'algorithms.jpg'
+            },
             {
                 name: 'P2P2P Web Page',
-                description: 'Peer-to-peer web page for the capstone project.',
-                categories: ['web', 'opensource'],
+                description: 'Peer-to-peer web application demonstrating distributed web technologies and decentralized communication protocols.',
+                categories: ['frontend'],
                 techStack: ['JavaScript', 'P2P', 'WebRTC', 'Networking'],
                 links: { 
                     github: 'https://github.com/JSerranom04/P2P2P-web-page',
                     demo: null 
                 },
-                image: 'p2p-network.jpg' // Suggested: Network topology or peer connections visualization
+                image: 'p2p-network.jpg'
             }
         ];
         
@@ -723,9 +719,8 @@ class ProjectsComponent extends BaseComponent {
     handleFilterClick(button) {
         const filter = button.getAttribute('data-filter');
         
-        // Update active button
-        this.filterButtons.forEach(btn => btn.classList.remove('active'));
-        button.classList.add('active');
+        // Store current filter
+        this.currentFilter = filter;
         
         // Filter projects
         this.filterProjects(filter);
@@ -739,9 +734,27 @@ class ProjectsComponent extends BaseComponent {
             
             if (filter === 'all' || categories.includes(filter)) {
                 card.style.display = 'block';
+                card.style.opacity = '1';
+                card.style.transform = 'translateY(0)';
                 card.style.animation = 'fadeInUp 0.5s ease-out';
             } else {
                 card.style.display = 'none';
+                card.style.opacity = '0';
+                card.style.transform = 'translateY(20px)';
+            }
+        });
+        
+        // Update filter button states
+        this.updateFilterButtonStates(filter);
+    }
+    
+    updateFilterButtonStates(activeFilter) {
+        this.filterButtons.forEach(btn => {
+            const btnFilter = btn.getAttribute('data-filter');
+            if (btnFilter === activeFilter) {
+                btn.classList.add('active');
+            } else {
+                btn.classList.remove('active');
             }
         });
     }
