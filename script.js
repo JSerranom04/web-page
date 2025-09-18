@@ -784,12 +784,31 @@ class ContactComponent extends BaseComponent {
     }
     
     async submitForm(formData) {
-        // Simulate form submission
-        return new Promise((resolve, reject) => {
-            setTimeout(() => {
-                Math.random() > 0.1 ? resolve() : reject(new Error('Simulated error'));
-            }, 2000);
-        });
+        // Get form data
+        const name = formData.get('name');
+        const email = formData.get('email');
+        const subject = formData.get('subject');
+        const message = formData.get('message');
+        
+        // Create email content
+        const emailSubject = encodeURIComponent(`Portfolio Contact: ${subject}`);
+        const emailBody = encodeURIComponent(
+            `Name: ${name}\n` +
+            `Email: ${email}\n` +
+            `Subject: ${subject}\n\n` +
+            `Message:\n${message}\n\n` +
+            `---\n` +
+            `Sent from portfolio website`
+        );
+        
+        // Create mailto link
+        const mailtoLink = `mailto:jserranom04@gmail.com?subject=${emailSubject}&body=${emailBody}`;
+        
+        // Open email client
+        window.open(mailtoLink, '_blank');
+        
+        // Return success (since we successfully opened email client)
+        return Promise.resolve();
     }
     
     showNotification(message, type = 'info') {
