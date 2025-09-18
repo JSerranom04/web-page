@@ -857,12 +857,6 @@ class UIComponent extends BaseComponent {
             });
         });
         
-        // Download CV button
-        const downloadBtn = this.$('.download-cv');
-        if (downloadBtn) {
-            this.addEventListener(downloadBtn, 'click', (e) => this.handleDownload(e));
-        }
-        
         // Window resize
         this.addEventListener(window, 'resize', () => this.handleResize());
     }
@@ -932,25 +926,6 @@ class UIComponent extends BaseComponent {
             hamburger?.classList.remove('active');
             navMenu?.classList.remove('active');
         }
-    }
-
-    handleDownload(e) {
-        // Let the browser handle the download naturally first
-        // If that doesn't work, this provides a fallback
-        const link = e.target.closest('a');
-        const href = link.getAttribute('href');
-        const filename = link.getAttribute('download') || 'Resume_Juan_Jose_Serrano_Mora.pdf';
-        
-        // Create a temporary link element for forced download
-        setTimeout(() => {
-            const tempLink = document.createElement('a');
-            tempLink.href = href;
-            tempLink.download = filename;
-            tempLink.style.display = 'none';
-            document.body.appendChild(tempLink);
-            tempLink.click();
-            document.body.removeChild(tempLink);
-        }, 100);
     }
 }
 
