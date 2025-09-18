@@ -97,13 +97,8 @@ class BaseComponent {
     addEventListener(element, event, handler, options = {}) {
         if (!element) return;
         
-        const key = `${element.constructor.name}-${event}`;
-        
-        // Remove existing listener if present
-        if (this.eventListeners.has(key)) {
-            const { el, evt, hdl } = this.eventListeners.get(key);
-            el.removeEventListener(evt, hdl);
-        }
+        // Create unique key using element reference instead of constructor name
+        const key = `${element.tagName || 'unknown'}-${event}-${Date.now()}-${Math.random()}`;
         
         element.addEventListener(event, handler, options);
         this.eventListeners.set(key, { el: element, evt: event, hdl: handler });
@@ -438,11 +433,17 @@ class ProjectsComponent extends BaseComponent {
     setupDOM() {
         this.projectsGrid = this.$(this.config.selectors.projectsGrid);
         this.filterButtons = this.$$(this.config.selectors.filterButtons);
+        
+
     }
     
     bindEvents() {
-        this.filterButtons.forEach(button => {
-            this.addEventListener(button, 'click', () => this.handleFilterClick(button));
+        // Project filter buttons
+        this.filterButtons.forEach((button) => {
+            this.addEventListener(button, 'click', (e) => {
+                e.preventDefault();
+                this.handleFilterClick(button);
+            });
         });
     }
     
@@ -518,9 +519,18 @@ class ProjectsComponent extends BaseComponent {
     createProjectCard(project) {
         const card = document.createElement('div');
         card.className = 'project-card';
-        card.setAttribute('data-categories', project.categories.join(' '));
         
-        // Use custom image if available, otherwise use GitHub icon
+        // Convert tags to data-tags with proper formatting
+        const dataTagsString = project.tags.map(tag => {
+            return tag.toLowerCase()
+                .replace(/ai\/ml/g, 'ai-ml')
+                .replace(/[^a-z0-9]/g, '-')
+                .replace(/-+/g, '-')
+                .replace(/^-|-$/g, '');
+        }).join(' ');
+        
+        card.setAttribute('data-tags', dataTagsString);
+        
         const imageContent = project.image 
             ? `<img src="images/${project.image}" alt="${project.name}" loading="lazy" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
                <i class="fab fa-github" style="display:none;"></i>`
@@ -533,7 +543,9 @@ class ProjectsComponent extends BaseComponent {
             <div class="project-content">
                 <div class="project-header">
                     <h3 class="project-title">${project.name}</h3>
-                    <span class="project-type">${project.categories[0] || 'Web'}</span>
+                    <div class="project-tags">
+                        ${project.tags.map(tag => `<span class="project-tag">${tag}</span>`).join('')}
+                    </div>
                 </div>
                 <p class="project-description">${project.description}</p>
                 <div class="project-tech">
@@ -557,11 +569,10 @@ class ProjectsComponent extends BaseComponent {
     
     displayFallbackProjects() {
         const fallbackProjects = [
-            // AI/ML Projects - Backend category
             {
                 name: 'Gaussian Processes',
                 description: 'Advanced probabilistic machine learning implementation using Gaussian Processes for regression and classification tasks with uncertainty quantification.',
-                categories: ['backend'],
+                tags: ['AI/ML'],
                 techStack: ['Python', 'Jupyter', 'NumPy', 'SciPy', 'Matplotlib'],
                 links: { 
                     github: 'https://github.com/JSerranom04/gaussian-processes',
@@ -572,7 +583,7 @@ class ProjectsComponent extends BaseComponent {
             {
                 name: 'Generative GMM',
                 description: 'Generative Gaussian Mixture Models implementation for unsupervised learning, clustering, and density estimation with EM algorithm optimization.',
-                categories: ['backend'],
+                tags: ['AI/ML'],
                 techStack: ['Python', 'Jupyter', 'Scikit-learn', 'NumPy'],
                 links: { 
                     github: 'https://github.com/JSerranom04/generative-GMM',
@@ -583,7 +594,7 @@ class ProjectsComponent extends BaseComponent {
             {
                 name: 'Logistic Regression & Neural Networks',
                 description: 'From-scratch implementation of logistic regression and neural networks with backpropagation, showcasing deep understanding of ML fundamentals.',
-                categories: ['backend'],
+                tags: ['AI/ML'],
                 techStack: ['Python', 'Jupyter', 'NumPy', 'Matplotlib'],
                 links: { 
                     github: 'https://github.com/JSerranom04/logistic-regression-and-neural-networks',
@@ -594,7 +605,7 @@ class ProjectsComponent extends BaseComponent {
             {
                 name: 'Binary Logistic Regression',
                 description: 'Mathematical implementation of binary logistic regression from scratch, demonstrating statistical learning theory and optimization techniques.',
-                categories: ['backend'],
+                tags: ['AI/ML'],
                 techStack: ['Python', 'Jupyter', 'NumPy', 'Statistics'],
                 links: { 
                     github: 'https://github.com/JSerranom04/binary-logistic-regression',
@@ -602,12 +613,10 @@ class ProjectsComponent extends BaseComponent {
                 },
                 image: 'logistic-regression.jpg'
             },
-
-            // Compiler & Systems Projects - Backend category
             {
                 name: 'Compiler from Scratch (JavaCC)',
                 description: 'Complete language processor implementation including lexical analysis, parsing, semantic analysis, and code generation using JavaCC framework.',
-                categories: ['backend'],
+                tags: ['Compiler Design'],
                 techStack: ['Java', 'JavaCC', 'Compiler Design', 'AST'],
                 links: { 
                     github: 'https://github.com/JSerranom04/compiler-from-scratch-Javacc',
@@ -615,12 +624,10 @@ class ProjectsComponent extends BaseComponent {
                 },
                 image: 'compiler-design.jpg'
             },
-
-            // Distributed Systems Projects - Backend category
             {
                 name: 'Raft Distributed Algorithm',
                 description: 'Implementation of the Raft consensus algorithm for distributed systems, ensuring fault tolerance and consistency in distributed environments.',
-                categories: ['backend'],
+                tags: ['Distributed Systems'],
                 techStack: ['Go', 'Distributed Systems', 'Consensus', 'Networking'],
                 links: { 
                     github: 'https://github.com/JSerranom04/raft-distributed-algorithm',
@@ -631,7 +638,7 @@ class ProjectsComponent extends BaseComponent {
             {
                 name: 'Ricart-Agrawala Writers-Readers',
                 description: 'Implementation of the Ricart-Agrawala distributed mutual exclusion algorithm for coordinating writers and readers in distributed systems.',
-                categories: ['backend'],
+                tags: ['Distributed Systems'],
                 techStack: ['Go', 'Distributed Systems', 'Concurrency', 'Mutex'],
                 links: { 
                     github: 'https://github.com/JSerranom04/ricart-agrawala-writters-readers',
@@ -639,12 +646,10 @@ class ProjectsComponent extends BaseComponent {
                 },
                 image: 'distributed-mutex.jpg'
             },
-
-            // Algorithms & Data Structures Projects - Backend category
             {
                 name: 'Branch and Prune Algorithms',
                 description: 'Implementation of branch-and-bound optimization algorithms with pruning techniques for solving complex combinatorial problems efficiently.',
-                categories: ['backend'],
+                tags: ['Algorithms'],
                 techStack: ['Go', 'Algorithms', 'Optimization', 'Data Structures'],
                 links: { 
                     github: 'https://github.com/JSerranom04/branch-and-prune',
@@ -652,12 +657,10 @@ class ProjectsComponent extends BaseComponent {
                 },
                 image: 'branch-bound.jpg'
             },
-
-            // System Programming - Backend category
             {
                 name: 'Python Message Broker',
                 description: 'High-performance message broker implementation in Python supporting multiple messaging patterns and protocols for distributed communication.',
-                categories: ['backend'],
+                tags: ['Software Engineering'],
                 techStack: ['Python', 'Networking', 'Message Queue', 'Concurrency'],
                 links: { 
                     github: 'https://github.com/JSerranom04/py-message-broker',
@@ -665,12 +668,10 @@ class ProjectsComponent extends BaseComponent {
                 },
                 image: 'message-broker.jpg'
             },
-
-            // Utility & Algorithm Projects - Backend category
             {
                 name: 'Content-Aware Image Resizing',
                 description: 'Implementation of seam carving algorithm for intelligent image resizing that preserves important visual content while removing less significant areas.',
-                categories: ['backend'],
+                tags: ['Algorithms'],
                 techStack: ['Go', 'Image Processing', 'Computer Vision', 'Algorithms'],
                 links: { 
                     github: 'https://github.com/JSerranom04/content-aware-image-resizing',
@@ -681,7 +682,7 @@ class ProjectsComponent extends BaseComponent {
             {
                 name: 'Hamming Distance Calculator',
                 description: 'Efficient implementation of Hamming distance calculation for error detection and correction in digital communications and bioinformatics.',
-                categories: ['backend'],
+                tags: ['Algorithms'],
                 techStack: ['Go', 'Bit Manipulation', 'Error Detection', 'Algorithms'],
                 links: { 
                     github: 'https://github.com/JSerranom04/hamming-distance',
@@ -692,7 +693,7 @@ class ProjectsComponent extends BaseComponent {
             {
                 name: 'Algorithmic Problem Collection',
                 description: 'Comprehensive collection of algorithmic solutions covering dynamic programming, greedy algorithms, graph theory, and competitive programming.',
-                categories: ['backend'],
+                tags: ['Algorithms'],
                 techStack: ['Python', 'Algorithms', 'Data Structures', 'Problem Solving'],
                 links: { 
                     github: 'https://github.com/JSerranom04/algorithmic-problem-collection',
@@ -703,7 +704,7 @@ class ProjectsComponent extends BaseComponent {
             {
                 name: 'P2P2P Web Page',
                 description: 'Peer-to-peer web application demonstrating distributed web technologies and decentralized communication protocols.',
-                categories: ['frontend'],
+                tags: ['Web'],
                 techStack: ['JavaScript', 'P2P', 'WebRTC', 'Networking'],
                 links: { 
                     github: 'https://github.com/JSerranom04/P2P2P-web-page',
@@ -719,8 +720,9 @@ class ProjectsComponent extends BaseComponent {
     handleFilterClick(button) {
         const filter = button.getAttribute('data-filter');
         
-        // Store current filter
-        this.currentFilter = filter;
+        // Update button states
+        this.filterButtons.forEach(btn => btn.classList.remove('active'));
+        button.classList.add('active');
         
         // Filter projects
         this.filterProjects(filter);
@@ -730,9 +732,9 @@ class ProjectsComponent extends BaseComponent {
         const projectCards = this.$$('.project-card:not(.loading-placeholder)');
         
         projectCards.forEach(card => {
-            const categories = card.getAttribute('data-categories')?.split(' ') || [];
+            const tags = card.getAttribute('data-tags') || '';
             
-            if (filter === 'all' || categories.includes(filter)) {
+            if (filter === 'all' || tags.includes(filter)) {
                 card.style.display = 'block';
                 card.style.opacity = '1';
                 card.style.transform = 'translateY(0)';
@@ -741,20 +743,6 @@ class ProjectsComponent extends BaseComponent {
                 card.style.display = 'none';
                 card.style.opacity = '0';
                 card.style.transform = 'translateY(20px)';
-            }
-        });
-        
-        // Update filter button states
-        this.updateFilterButtonStates(filter);
-    }
-    
-    updateFilterButtonStates(activeFilter) {
-        this.filterButtons.forEach(btn => {
-            const btnFilter = btn.getAttribute('data-filter');
-            if (btnFilter === activeFilter) {
-                btn.classList.add('active');
-            } else {
-                btn.classList.remove('active');
             }
         });
     }
@@ -862,14 +850,36 @@ class UIComponent extends BaseComponent {
         this.addEventListener(window, 'scroll', () => this.updateBackToTopVisibility());
         
         // Resume tabs
-        this.tabButtons.forEach(button => {
-            this.addEventListener(button, 'click', () => this.handleTabClick(button));
+        this.tabButtons.forEach((button) => {
+            this.addEventListener(button, 'click', (e) => {
+                e.preventDefault();
+                this.handleTabClick(button);
+            });
         });
+        
+        // Download CV button
+        const downloadBtn = this.$('.download-cv');
+        if (downloadBtn) {
+            this.addEventListener(downloadBtn, 'click', (e) => this.handleDownload(e));
+        }
         
         // Window resize
         this.addEventListener(window, 'resize', () => this.handleResize());
     }
     
+    afterInit() {
+        // Initialize tab visibility
+        this.tabContents.forEach(content => {
+            if (content.classList.contains('active')) {
+                content.style.display = 'block';
+                content.setAttribute('aria-hidden', 'false');
+            } else {
+                content.style.display = 'none';
+                content.setAttribute('aria-hidden', 'true');
+            }
+        });
+    }
+
     scrollToTop() {
         window.scrollTo({ top: 0, behavior: 'smooth' });
     }
@@ -883,14 +893,34 @@ class UIComponent extends BaseComponent {
     
     handleTabClick(button) {
         const tabName = button.getAttribute('data-tab');
+        const targetContent = this.$(`#${tabName}`);
         
-        // Remove active class from all tabs and contents
-        this.tabButtons.forEach(btn => btn.classList.remove('active'));
-        this.tabContents.forEach(content => content.classList.remove('active'));
+        if (!targetContent) {
+            return;
+        }
         
-        // Add active class to clicked tab and corresponding content
+        // Force remove active from all buttons and contents
+        this.tabButtons.forEach(btn => {
+            btn.classList.remove('active');
+            btn.setAttribute('aria-selected', 'false');
+        });
+        
+        this.tabContents.forEach(content => {
+            content.classList.remove('active');
+            content.style.display = 'none';
+            content.setAttribute('aria-hidden', 'true');
+        });
+        
+        // Add active to selected
         button.classList.add('active');
-        this.$(`#${tabName}`)?.classList.add('active');
+        button.setAttribute('aria-selected', 'true');
+        
+        targetContent.classList.add('active');
+        targetContent.style.display = 'block';
+        targetContent.setAttribute('aria-hidden', 'false');
+        
+        // Scroll to content if needed
+        targetContent.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
     }
     
     handleResize() {
@@ -902,6 +932,25 @@ class UIComponent extends BaseComponent {
             hamburger?.classList.remove('active');
             navMenu?.classList.remove('active');
         }
+    }
+
+    handleDownload(e) {
+        // Let the browser handle the download naturally first
+        // If that doesn't work, this provides a fallback
+        const link = e.target.closest('a');
+        const href = link.getAttribute('href');
+        const filename = link.getAttribute('download') || 'Resume_Juan_Jose_Serrano_Mora.pdf';
+        
+        // Create a temporary link element for forced download
+        setTimeout(() => {
+            const tempLink = document.createElement('a');
+            tempLink.href = href;
+            tempLink.download = filename;
+            tempLink.style.display = 'none';
+            document.body.appendChild(tempLink);
+            tempLink.click();
+            document.body.removeChild(tempLink);
+        }, 100);
     }
 }
 
