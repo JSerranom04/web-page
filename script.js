@@ -703,14 +703,14 @@ class ProjectsComponent extends BaseComponent {
             },
             {
                 name: 'P2P2P Web Page',
-                description: 'Peer-to-peer web application demonstrating distributed web technologies and decentralized communication protocols.',
+                description: 'Peer-to-peer web application for our SandDisk team project.',
                 tags: ['Web'],
                 techStack: ['JavaScript', 'P2P', 'WebRTC', 'Networking'],
                 links: { 
                     github: 'https://github.com/JSerranom04/P2P2P-web-page',
                     demo: null 
                 },
-                image: 'p2p-network.jpg'
+                image: 'sand-disk.png'
             }
         ];
         
